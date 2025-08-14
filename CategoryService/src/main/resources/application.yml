@@ -1,0 +1,30 @@
+##PORT
+server:
+  port: ${APP_PORT:8081}
+
+spring:
+  application:
+    name: category-service
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: dd-MM-yyyy HH:mm:ss
+
+
+  ## mysql connection
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:expense-manager-db}?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  ## jpa properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true

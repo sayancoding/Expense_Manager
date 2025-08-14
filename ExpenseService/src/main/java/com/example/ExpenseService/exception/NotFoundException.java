@@ -1,4 +1,4 @@
-package com.example.CategoryService.exception;
+package com.example.ExpenseService.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

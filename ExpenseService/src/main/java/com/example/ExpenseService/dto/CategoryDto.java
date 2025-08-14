@@ -1,7 +1,6 @@
-package com.example.CategoryService.dto;
+package com.example.ExpenseService.dto;
 
 import lombok.Builder;
-import lombok.Data;
 
 
 @Builder
