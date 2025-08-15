@@ -16,4 +16,13 @@ public class GatewayConfig {
                  .uri("lb://category-service"))
              .build();
      }
+
+//    Config for Gateway-server-mvc dependency
+//    @Bean
+//    public RouterFunction<ServerResponse> customRouteLocator() {
+//        return GatewayMvcRouterFunctions.route("product-service-route") // Route ID
+//                .route(path("/api/products/**"), HandlerFunctions.http("lb://product-service"))
+//                .route(path("/api/users/**"), HandlerFunctions.http("lb://user-service"))
+//                .build();
+//    }
 }
