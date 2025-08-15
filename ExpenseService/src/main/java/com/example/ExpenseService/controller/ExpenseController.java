@@ -3,6 +3,7 @@ package com.example.ExpenseService.controller;
 import com.example.ExpenseService.dto.ExpenseDto;
 import com.example.ExpenseService.dto.ExpenseRequest;
 import com.example.ExpenseService.service.ExpenseService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/expense")
+@Tag(name = "Expense Service", description = "APIs for managing expenses")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;

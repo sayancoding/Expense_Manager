@@ -2,8 +2,8 @@ package com.example.CategoryService.controller;
 
 import com.example.CategoryService.dto.CategoryDto;
 import com.example.CategoryService.dto.CategoryRequest;
-import com.example.CategoryService.entity.Category;
 import com.example.CategoryService.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/category")
+@Tag(name = "Category Service", description = "APIs for managing categories")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

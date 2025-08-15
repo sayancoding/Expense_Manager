@@ -1,0 +1,21 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: Gateway-Service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Category-API
+        url: /api-docs/category
+      - name: Expense-Service
+        url: /api-docs/expense

@@ -7,22 +7,22 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GatewayConfig {
-     @Bean
-     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-         return builder.routes()
-             .route("expense_service", r -> r.path("/api/expense/**")
-                 .uri("lb://expense-service"))
-             .route("category_service", r -> r.path("/api/category/**")
-                 .uri("lb://category-service"))
-             .build();
-     }
 
-//    Config for Gateway-server-mvc dependency
-//    @Bean
-//    public RouterFunction<ServerResponse> customRouteLocator() {
-//        return GatewayMvcRouterFunctions.route("product-service-route") // Route ID
-//                .route(path("/api/products/**"), HandlerFunctions.http("lb://product-service"))
-//                .route(path("/api/users/**"), HandlerFunctions.http("lb://user-service"))
-//                .build();
-//    }
+    @Bean
+    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {{
+        return builder.routes()
+                .route("category-service", r -> r.path("/api/category/**")
+                        .uri("lb://category-service"))
+                .route("expense-service", r -> r.path("/api/expense/**")
+                        .uri("lb://expense-service"))
+
+//                OpenAPI routes for Swagger documentation
+                .route("category-swagger",r -> r.path("/api-docs/category")
+                        .filters(f -> f.rewritePath("/api-docs/category", "/api-docs"))
+                        .uri("lb://category-service"))
+                .route("expense-swagger",r -> r.path("/api-docs/expense")
+                        .filters(f -> f.rewritePath("/api-docs/expense", "/api-docs"))
+                        .uri("lb://expense-service"))
+                .build();
+    }}
 }
