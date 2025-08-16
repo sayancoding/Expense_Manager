@@ -12,8 +12,12 @@ public class GatewayConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {{
         return builder.routes()
                 .route("category-service", r -> r.path("/api/category/**")
+                        .filters(f -> f.circuitBreaker(cb -> cb.setName("categoryServiceCircuitBreaker")
+                                .setFallbackUri("forward:/fallback")))
                         .uri("lb://category-service"))
                 .route("expense-service", r -> r.path("/api/expense/**")
+                        .filters(f -> f.circuitBreaker(cb -> cb.setName("expenseServiceCircuitBreaker")
+                                .setFallbackUri("forward:/fallback")))
                         .uri("lb://expense-service"))
 
 //                OpenAPI routes for Swagger documentation
@@ -23,6 +27,9 @@ public class GatewayConfig {
                 .route("expense-swagger",r -> r.path("/api-docs/expense")
                         .filters(f -> f.rewritePath("/api-docs/expense", "/api-docs"))
                         .uri("lb://expense-service"))
+                // Fallback route
+                .route("fallback-route", r -> r.path("/fallback")
+                        .uri("forward:/fallback-handler"))
                 .build();
     }}
 }

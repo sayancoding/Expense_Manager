@@ -1,8 +1,12 @@
 server:
   port: 9090
+
 spring:
   application:
     name: Gateway-Service
+  cloud:
+    circuitbreaker:
+      enabled: true
 
 eureka:
   client:
@@ -19,3 +23,38 @@ springdoc:
         url: /api-docs/category
       - name: Expense-Service
         url: /api-docs/expense
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        autoTransitionFromOpenToHalfOpenEnabled: true
+
+    retry:
+      configs:
+        default:
+          maxAttempts: 3
+          waitDuration: 5s
+
+    timeLimiter:
+      configs:
+        default:
+          timeoutDuration: 3s
