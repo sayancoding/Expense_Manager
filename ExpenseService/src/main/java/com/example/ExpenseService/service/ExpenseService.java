@@ -9,6 +9,7 @@ import com.example.ExpenseService.enmus.Currency;
 import com.example.ExpenseService.entity.Expense;
 import com.example.ExpenseService.exception.NotFoundException;
 import com.example.ExpenseService.utils.DateTimeUtil;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class ExpenseService {
     @Autowired
     private CategoryClient categoryClient;
 
+//    @CircuitBreaker(name = "CategoryService", fallbackMethod = "fallbackGetCategoryById")
     public String saveExpense(ExpenseRequest expenseRequest) {
         //Check category exists or not
         CategoryDto categoryDto = categoryClient.getCategoryById(expenseRequest.categoryId());
@@ -115,6 +117,10 @@ public class ExpenseService {
                         .createdAt(expense.getCreatedAt())
                         .updatedAt(expense.getUpdatedAt())
                         .build()).toList();
+    }
+    private CategoryDto fallbackGetCategoryById(Long categoryId, Throwable throwable) {
+        log.error("CategoryClientFallback method called for getCategoryById with id: {}, error: {}", categoryId, throwable.getMessage());
+        return CategoryDto.builder().categoryId(1L).build();
     }
 
 }

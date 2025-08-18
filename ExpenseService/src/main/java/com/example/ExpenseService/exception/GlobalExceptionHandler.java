@@ -18,4 +18,9 @@ public class GlobalExceptionHandler {
         log.error("NotFoundException occurred: {}", e.getMessage());
         return ResponseEntity.status(404).body("Not found error occurred: " + e.getMessage());
     }
+    @ExceptionHandler(ServiceDownException.class)
+    public ResponseEntity<String> handleServiceDownException(ServiceDownException e) {
+        log.error("ServiceDownException occurred: {}", e.getMessage());
+        return ResponseEntity.status(503).body("Runtime Exception Handled : " + e.getMessage());
+    }
 }

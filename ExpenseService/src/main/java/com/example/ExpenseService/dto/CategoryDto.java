@@ -4,4 +4,4 @@ import lombok.Builder;
 
 
 @Builder
-public record CategoryDto(String categoryId, String userId, String name, String type, String description) { }
+public record CategoryDto(Long categoryId, Long userId, String name, String type, String description) { }
