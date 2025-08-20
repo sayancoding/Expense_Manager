@@ -4,6 +4,7 @@ import com.example.CategoryService.dto.CategoryDto;
 import com.example.CategoryService.dto.CategoryRequest;
 import com.example.CategoryService.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/category")
 @Tag(name = "Category Service", description = "APIs for managing categories")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Slf4j
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -27,7 +29,8 @@ public class CategoryController {
         return categoryService.getAllCategories();
     }
     @GetMapping("/{categoryId}")
-    public CategoryDto getCategoryById(@PathVariable Long categoryId) {
+    public CategoryDto getCategoryById(@PathVariable Long categoryId) throws InterruptedException {
+
         return categoryService.getCategoryById(categoryId);
     }
     @GetMapping("/type/{type}")

@@ -30,9 +30,13 @@ public class CategoryService {
         return "Category created successfully with id: " + category.getCategoryId();
     }
 
-    public CategoryDto getCategoryById(Long categoryId) {
+    public CategoryDto getCategoryById(Long categoryId) throws InterruptedException {
         Category category =  categoryDao.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException("Category not found with id: " + categoryId));
+        log.info("Start fetching category with id: {}", categoryId);
+        log.info("Retrying..");
+        Thread.sleep(1000);
+        log.info("End fetching category with id: {}", categoryId);
         return CategoryDto.builder()
                 .name(category.getName())
                 .categoryId(category.getCategoryId().toString())

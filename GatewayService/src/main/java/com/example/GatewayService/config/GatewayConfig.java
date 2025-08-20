@@ -4,6 +4,11 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+
+import java.time.Duration;
+
+import static org.springframework.cloud.gateway.support.RouteMetadataUtils.RESPONSE_TIMEOUT_ATTR;
 
 @Configuration
 public class GatewayConfig {
@@ -13,11 +18,24 @@ public class GatewayConfig {
         return builder.routes()
                 .route("category-service", r -> r.path("/api/category/**")
                         .filters(f -> f.circuitBreaker(cb -> cb.setName("categoryServiceCircuitBreaker")
-                                .setFallbackUri("forward:/fallback")))
+                                .setFallbackUri("forward:/fallback"))
+                                .retry(retryConfig -> retryConfig.setRetries(3)
+                                        .setMethods(HttpMethod.GET)
+                                        .setBackoff(Duration.ofMillis(100),
+                                                Duration.ofMillis(800),
+                                                2,
+                                                true))
+                        )
                         .uri("lb://category-service"))
                 .route("expense-service", r -> r.path("/api/expense/**")
                         .filters(f -> f.circuitBreaker(cb -> cb.setName("expenseServiceCircuitBreaker")
-                                .setFallbackUri("forward:/fallback")))
+                                .setFallbackUri("forward:/fallback"))
+                                .retry(retryConfig -> retryConfig.setRetries(3)
+                                        .setMethods(HttpMethod.GET)
+                                        .setBackoff(Duration.ofMillis(100),
+                                                Duration.ofMillis(800),
+                                                2,
+                                                true)))
                         .uri("lb://expense-service"))
 
 //                OpenAPI routes for Swagger documentation

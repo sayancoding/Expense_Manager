@@ -7,6 +7,12 @@ spring:
   cloud:
     circuitbreaker:
       enabled: true
+    gateway:
+      server:
+        webflux:
+          httpclient:
+            connect-timeout: 2000
+            response-timeout: 8s
 
 eureka:
   client:
@@ -41,20 +47,16 @@ resilience4j:
     configs:
       default:
         registerHealthIndicator: true
-        slidingWindowSize: 10
         slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
         failureRateThreshold: 50
-        waitDurationInOpenState: 5s
+        waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3
-        autoTransitionFromOpenToHalfOpenEnabled: true
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        minimumNumberOfCalls: 5
+  #Resilience4J time-limiter Properties
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 8s
 
-    retry:
-      configs:
-        default:
-          maxAttempts: 3
-          waitDuration: 5s
-
-    timeLimiter:
-      configs:
-        default:
-          timeoutDuration: 3s

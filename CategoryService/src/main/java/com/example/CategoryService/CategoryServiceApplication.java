@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableWebMvc
-public class CategoryServiceApplication {
+public class  CategoryServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CategoryServiceApplication.class, args);
